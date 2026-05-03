@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "shinkansen"
+version = "0.0.1.dev0"
+description = "A training framework — fast, reliable, on time. Pretraining + post-training, CUDA + ROCm."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Ziliang Peng" }]
+keywords = ["pytorch", "training", "pretraining", "fsdp", "rocm", "cuda", "llm"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.4",
+    "numpy",
+    "pyyaml",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+rocm = []  # aiter pinned separately; install from source on ROCm hosts
+cuda = []  # nvidia-specific extras (e.g. flash-attn) added later
+dev = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
+
+[project.urls]
+Homepage = "https://github.com/ziliangpeng/shinkansen"
+Repository = "https://github.com/ziliangpeng/shinkansen"
+Issues = "https://github.com/ziliangpeng/shinkansen/issues"
+
+[project.scripts]
+shinkansen = "shinkansen.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/shinkansen"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
